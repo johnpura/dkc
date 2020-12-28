@@ -6,7 +6,7 @@ const router = express.Router();
  */
 router.get('/', function(req, res, next) {
   const locals = {
-    pageTitle: 'Welcome',
+    pageTitle: 'Welcome!',
   };
   res.render('index', locals);
 });

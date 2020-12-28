@@ -1,15 +1,26 @@
-// node modules
 require('dotenv').config();
-const express = require('express');
+// node modules
 const path = require('path');
+
+//
+const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const logger = require('morgan');
-const exphbs  = require('express-handlebars');
 const flash = require('connect-flash');
+const exphbs  = require('express-handlebars');
+
+//
+const mongo = require('./database/mongoose');
+
+const hbsConfig = {
+    extname: 'hbs', 
+    layoutsDir: path.join(__dirname, 'views/layouts'),
+    partialsDir: path.join(__dirname, 'views/partials'),
+};
 
 // connect to Atlas cluster
-const {mongoose} = require('./database/mongoose');
+mongo();
 
 // mount routes
 const indexRouter = require('./routes/index');
@@ -32,13 +43,7 @@ app.use(session({
 app.use(flash());
 
 // view engine setup
-// __dirname + '/views/layouts/'
-// __dirname + '/views/partials/'
-const hbsConfig = {
-    extname: 'hbs', 
-    layoutsDir: path.join(__dirname, 'views/layouts'),
-    partialsDir: path.join(__dirname, 'views/partials'),
-};
+
 app.set('view engine', 'hbs');
 app.engine('hbs', exphbs(hbsConfig));
 
